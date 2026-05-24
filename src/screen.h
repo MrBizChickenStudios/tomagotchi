@@ -10,7 +10,7 @@ extern Adafruit_ST7789 tft;
 
 void setupScreen();
 
-//void draw();
+void draw();
 
 void drawText(String text, int textX, int textY);
 

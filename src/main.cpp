@@ -7,6 +7,7 @@ int x = 0;
 
 void setup() {
   setupScreen();
+
   
 }
 
@@ -17,5 +18,6 @@ void loop() {
   drawText(String(x), 50 , 50);
   delay(1000);
   x ++;
+  draw();
 }
 
