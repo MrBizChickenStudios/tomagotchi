@@ -1,27 +1,44 @@
-#include "screen.h"
 #include <Arduino.h>
 #include <SPI.h>
 #include <Adafruit_GFX.h>
-#include <Adafruit_ILI9341.h>
+#include <Adafruit_ST7789.h>
 
 #define TFT_CS   D8
 #define TFT_DC   D3
 #define TFT_RST  D4
 
-Adafruit_ILI9341 tft(TFT_CS, TFT_DC, TFT_RST);
+Adafruit_ST7789 tft = Adafruit_ST7789(TFT_CS, TFT_DC, TFT_RST);
 
 void setupScreen() {
-  tft.begin();
-  tft.setRotation(1);
+  SPI.setFrequency(40000000);
 
+  tft.init(240, 320);   // IMPORTANT for ST7789
+  tft.setRotation(1);
+  tft.fillScreen(ST77XX_BLACK);
+
+
+}
+
+void draw(){
+
+
+  tft.setTextColor(ST77XX_WHITE);
+  tft.setTextSize(2);
   
 }
 
-void draw() {
-    tft.fillScreen(ILI9341_BLACK);
+void drawText(String text, int textX, int textY){
+    tft.setCursor(textX, textY);
+    tft.fillRect(textX, textY, 50, 50, ST77XX_BLACK);
+    tft.println(text);
+    
 
-    tft.setTextColor(ILI9341_WHITE);
-    tft.setTextSize(2);
-    tft.setCursor(20, 50);
-    tft.println("HELLO WORLD");
+}
+
+void drawText(String text, int textX, int textY, uint16_t color ){
+    tft.setCursor(textX, textY);
+    tft.fillRect(textX, textY, 50, 50, color);
+    tft.println(text);
+    
+
 }

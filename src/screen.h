@@ -1,13 +1,17 @@
 #pragma once
 #include <Arduino.h>
-#include <SPI.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_ILI9341.h>
+#include <Adafruit_ST7789.h>
+#include "test.h"
 
 
 
-extern Adafruit_ILI9341 tft;
+extern Adafruit_ST7789 tft;
+
 
 void setupScreen();
 
-void draw();
+//void draw();
+
+void drawText(String text, int textX, int textY);
+
+void drawText(String text, int textX, int textY, uint16_t color );
