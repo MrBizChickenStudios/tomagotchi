@@ -1,17 +1,13 @@
 #pragma once
 #include <Arduino.h>
-#include <Adafruit_ST7789.h>
-#include "test.h"
+#include <TFT_eSPI.h>
 
 
+#define SCREEN_W 320
+#define SCREEN_H 240
 
-extern Adafruit_ST7789 tft;
-
+extern TFT_eSPI tft;
 
 void setupScreen();
 
-//void draw();
-
-void drawText(String text, int textX, int textY);
-
-void drawText(String text, int textX, int textY, uint16_t color );
+void draw();
