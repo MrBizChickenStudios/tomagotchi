@@ -16,9 +16,10 @@ void setup() {
   delay(1000);
   setupButtons();
   setupEatingScreen();
+  setupScreen();
 
   // randomSeed(analogRead(A0));
-  // setupScreen();
+  
   // setupDrawAssets();
   // nextMoveDelay = random(3000, 6000);
 }

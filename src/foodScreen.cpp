@@ -5,14 +5,14 @@
 
 int hunger = 50;
 int happiness = 50;
-int selectedOption = 0;
+int selectedOption = 1;
 
 const int GAP = SCREEN_H / 24;
 const int BOX_W = SCREEN_W * 0.9;
 const int BOX_H = SCREEN_H / 4;
 const int BOX_X = SCREEN_W / 2 - BOX_W / 2;
-const int SNACK_Y = SCREEN_H - BOX_H;
-const int MEAL_Y = SNACK_Y - GAP;
+const int SNACK_Y = SCREEN_H - BOX_H - GAP;
+const int MEAL_Y = SNACK_Y - BOX_H - GAP;
 const int BAR_W = BOX_W / 2 - GAP * 2;
 const int BAR_H = GAP * 1.5;
 const int BAR_Y = MEAL_Y - GAP * 2;
@@ -36,19 +36,19 @@ void drawEatingScreen()
     tft.setTextColor(TFT_WHITE);
 
     String s = "FOOD MENU";
-    int x = SCREEN_W / 2  - tft.textWidth(s) / 2;
+    int x = SCREEN_W / 2;
     int y = tft.fontHeight() * 2;
     tft.drawString(s, x, y);
 
     // === BARS ===
     tft.setTextSize(1);
     s = "Hunger";
-    x = HUNGER_BAR_X +  BAR_W / 2 - tft.textWidth(s) / 2;
+    x = HUNGER_BAR_X + BAR_W / 2;
     y = BAR_Y - GAP;
     tft.drawString(s, x, y);
 
     s = "Happiness";
-    x = HAPPINES_BAR_X +  BAR_W / 2 - tft.textWidth(s) / 2;
+    x = HAPPINES_BAR_X +  BAR_W / 2;
     y = BAR_Y - GAP;
     tft.drawString(s, x, y);
 
@@ -71,13 +71,13 @@ void drawEatingScreen()
         tft.drawRect(BOX_X, SNACK_Y, BOX_W, BOX_H, TFT_WHITE);
 
     s = "MEAL (+25)";
-    x = BOX_X + BOX_W / 2 - tft.textWidth(s) / 2;
-    y = MEAL_Y / 2 - tft.fontHeight();
+    x = BOX_X + BOX_W / 2;
+    y = MEAL_Y + BOX_H / 2;
     tft.drawString(s, x, y);
 
     s = "SNACK (+15)";
-    x = BOX_X + BOX_W / 2 - tft.textWidth(s) / 2;
-    y = SNACK_Y / 2 - tft.fontHeight();
+    x = BOX_X + BOX_W / 2;
+    y = SNACK_Y + BOX_H / 2;
     tft.drawString(s, x, y);
 }
 
@@ -92,18 +92,18 @@ void updateEatingScreen(){
         happiness += 25;
         drawEatingScreen();
         Serial.print(" a pressed");
-        delay(200);
+        // delay(200);
 
     }
 
-    if (buttonAPressed())
+    if (buttonBPressed())
     {
         selectedOption = 1;
         hunger += 15;
         happiness += 15;
         drawEatingScreen();
         Serial.print(" b pressed");
-        delay(200);
+        // delay(200);
     }
 
     // clamp values

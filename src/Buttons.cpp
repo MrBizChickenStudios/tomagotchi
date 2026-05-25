@@ -3,6 +3,12 @@
 ButtonStates currentButtons = {HIGH, HIGH, HIGH};
 ButtonStates lastButtons    = {HIGH, HIGH, HIGH};
 
+
+bool aPressed = false;
+bool bPressed = false;
+bool cPressed = false;
+
+
 void setupButtons()
 {
     pinMode(BTN_A, INPUT_PULLUP);
@@ -11,7 +17,8 @@ void setupButtons()
 }
 
 void updateButtons()
-{
+{   
+    
     // save old states
     lastButtons = currentButtons;
 
@@ -19,6 +26,10 @@ void updateButtons()
     currentButtons.a = digitalRead(BTN_A);
     currentButtons.b = digitalRead(BTN_B);
     currentButtons.c = digitalRead(BTN_C);
+
+    aPressed = (lastButtons.a == HIGH && currentButtons.a == LOW);
+    bPressed = (lastButtons.b == HIGH && currentButtons.b == LOW);
+    cPressed = (lastButtons.c == HIGH && currentButtons.c == LOW);
 }
 
 bool buttonAPressed()
