@@ -3,50 +3,89 @@
 #include "foodScreen.h"
 #include "DrawAssets.h"
 #include "Buttons.h"
+#include "MoveJerryScreen.h"
 
-int x = 100;
-int oldX = 100;
+unsigned long moveDelay = 0;
 
-unsigned long lastMove = 0;
-unsigned long nextMoveDelay = 0;
+bool jerryScreen = true;
+bool eatingScreen = false;
 
+// hold timers
+unsigned long aHoldStart = 0;
+unsigned long bHoldStart = 0;
 
 void setup() {
   Serial.begin(115200);
   delay(1000);
+
+  setupScreen();
   setupButtons();
   setupEatingScreen();
-  setupScreen();
 
-  // randomSeed(analogRead(A0));
-  
-  // setupDrawAssets();
-  // nextMoveDelay = random(3000, 6000);
+  randomSeed(analogRead(A0));
+
+  setupDrawAssets();
+  moveDelay = random(3000, 6000);
 }
 
-
 void loop() {
-  updateEatingScreen();
 
-  // if (millis() - lastMove > nextMoveDelay)
-  // {
-  //   lastMove = millis();
+  updateButtons();
 
-  //   oldX = x;
+  // =========================
+  // HOLD A FOR 3 SECONDS
+  // -> EATING SCREEN
+  // =========================
+  if (currentButtons.a == LOW)
+  {
+    if (aHoldStart == 0)
+    {
+      aHoldStart = millis();
+    }
 
-  //   x = random(0, 230);
+    if (millis() - aHoldStart >= 3000)
+    {
+      eatingScreen = true;
+      jerryScreen = false;
+    }
+  }
+  else
+  {
+    aHoldStart = 0;
+  }
 
-  //   if (x < oldX)
-  //   {
-  //     tft.fillScreen(TFT_BLACK);
-  //     drawJerryAsset("/jerryleft.raw", x, 50, 180, 180);
-  //   }
-  //   else
-  //   {
-  //     tft.fillScreen(TFT_BLACK);
-  //     drawJerryAsset("/jerry.raw", x, 50, 180, 180);
-  //   }
+  // =========================
+  // HOLD B FOR 3 SECONDS
+  // -> JERRY SCREEN
+  // =========================
+  if (currentButtons.b == LOW)
+  {
+    if (bHoldStart == 0)
+    {
+      bHoldStart = millis();
+    }
 
-  //   nextMoveDelay = random(3000, 6000);
-  // }
+    if (millis() - bHoldStart >= 3000)
+    {
+      jerryScreen = true;
+      eatingScreen = false;
+    }
+  }
+  else
+  {
+    bHoldStart = 0;
+  }
+
+  // =========================
+  // ACTIVE SCREEN
+  // =========================
+  if (eatingScreen)
+  {
+    updateEatingScreen();
+  }
+
+  if (jerryScreen)
+  {
+    moveJerry(moveDelay);
+  }
 }

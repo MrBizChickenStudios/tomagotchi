@@ -2,9 +2,9 @@
 
 #include <Arduino.h>
 
-#define BTN_A 32
-#define BTN_B 33
-#define BTN_C 25
+#define BTN_A D1
+#define BTN_B D2
+#define BTN_C D6
 
 
 extern bool aPressed;

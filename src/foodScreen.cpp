@@ -3,8 +3,8 @@
 #include "Buttons.h"
 
 
-int hunger = 50;
-int happiness = 50;
+int hunger = 0;
+int happiness = 0;
 int selectedOption = 1;
 
 const int GAP = SCREEN_H / 24;
@@ -22,9 +22,21 @@ const int HAPPINES_BAR_X = SCREEN_W / 2 + GAP * 2;
 
 void drawBar(int x, int y, int w, int h, int value, uint16_t color)
 {
-    int fillW = map(value, 0, 100, 0, w);
+    value = constrain(value, 0, 100);
+
+    int fillW = map(value, 0, 100, 0, w - 2);
+
+    // outline
     tft.drawRect(x, y, w, h, TFT_WHITE);
-    tft.fillRect(x + 1, y + 1, fillW - 2, h - 2, color);
+
+    // clear inside first
+    tft.fillRect(x + 1, y + 1, w - 2, h - 2, TFT_BLACK);
+
+    // draw fill only if positive
+    if (fillW > 0)
+    {
+        tft.fillRect(x + 1, y + 1, fillW, h - 2, color);
+    }
 }
 
 
@@ -88,12 +100,14 @@ void updateEatingScreen(){
     if (buttonAPressed())
     {
         selectedOption = 0;
-        hunger += 25;
-        happiness += 25;
-        drawEatingScreen();
-        Serial.print(" a pressed");
-        // delay(200);
 
+        hunger += 25;
+
+        hunger = constrain(hunger, 0, 100);
+
+        drawEatingScreen();
+
+        Serial.println("a pressed");
     }
 
     if (buttonBPressed())
