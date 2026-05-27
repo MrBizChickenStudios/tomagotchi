@@ -22,7 +22,7 @@ void moveJerry(int nextMoveDelay){
         if (x < oldX)
         {
         tft.fillScreen(TFT_BLACK);
-        drawJerryAsset("/jerryleft.raw", x, 50, 180, 180);
+        drawJerryAsset("/jerryLeft.raw", x, 50, 180, 180);
         }
         else
         {
